@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>わくわく計算バトル！</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <h1>わくわく計算バトル！</h1>
+
+        <div id="mode-selection" class="screen active">
+            <h2>モードを選んでね！</h2>
+            <button onclick="startGame('easy')">かんたんモード (たし算・ひき算)</button>
+            <button onclick="startGame('hard')">むずかしいモード (かけ算・わり算)</button>
+        </div>
+
+        <div id="game-screen" class="screen">
+            <div id="status-bar">
+                <div id="level">レベル: 1</div>
+                <div id="timer">時間: 60</div>
+                <div id="score">スコア: 0/12</div>
+            </div>
+            <div id="question-area">
+                <p id="question">ここに問題が表示されます</p>
+            </div>
+            <div id="options-area">
+                <button class="option"></button>
+                <button class="option"></button>
+                <button class="option"></button>
+                <button class="option"></button>
+                <button class="option"></button>
+                <button class="option"></button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="screen">
+            <h2>結果発表！</h2>
+            <p id="result-message"></p>
+            <p id="final-score"></p>
+            <p id="final-time"></p>
+            <button onclick="showModeSelection()">もう一度挑戦する</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

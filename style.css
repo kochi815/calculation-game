@@ -1,0 +1,84 @@
+body {
+    font-family: sans-serif; /* 読みやすいフォントに */
+    display: flex;
+    justify-content: center; /* 中央揃え */
+    align-items: center;
+    min-height: 100vh; /* 画面全体の高さを使う */
+    background-color: #f0f8ff; /* 背景色を薄い青に */
+    margin: 0;
+}
+
+#game-container {
+    background-color: #fff; /* ゲームエリアの背景を白に */
+    padding: 20px;
+    border-radius: 10px; /* 角を丸く */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影をつける */
+    text-align: center;
+    width: 90%;
+    max-width: 600px; /* 最大幅を設定 */
+}
+
+h1 {
+    color: #4682b4; /* タイトルの色 */
+}
+
+h2 {
+    color: #556b2f; /* 見出しの色 */
+}
+
+/* 画面切り替え用スタイル */
+.screen {
+    display: none; /* 通常は非表示 */
+}
+
+.screen.active {
+    display: block; /* activeクラスがついたら表示 */
+}
+
+#status-bar {
+    display: flex; /* 横並びにする */
+    justify-content: space-around; /* 要素間にスペースを均等に配置 */
+    margin-bottom: 20px;
+    background-color: #eee;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#question-area {
+    font-size: 2em; /* 問題文の文字を大きく */
+    margin-bottom: 20px;
+    min-height: 50px; /* 高さを確保 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e0ffff; /* 問題エリアの背景色 */
+    padding: 15px;
+    border-radius: 5px;
+}
+
+#options-area {
+    display: grid; /* グリッドレイアウトを使用 */
+    grid-template-columns: repeat(3, 1fr); /* 3列に */
+    gap: 10px; /* ボタン間の隙間 */
+    margin-bottom: 20px;
+}
+
+.option, button { /* 選択肢ボタンと他のボタンの共通スタイル */
+    padding: 15px;
+    font-size: 1.2em;
+    cursor: pointer; /* カーソルをポインターに */
+    border: none;
+    border-radius: 5px;
+    background-color: #87cefa; /* ボタンの背景色 */
+    color: white; /* 文字色 */
+    transition: background-color 0.3s; /* ホバー時の色変化を滑らかに */
+}
+
+.option:hover, button:hover {
+    background-color: #4682b4; /* ホバー時の背景色 */
+}
+
+#result-screen p {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
