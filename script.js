@@ -142,50 +142,66 @@ function generateAndDisplayQuestion() {
     scoreDisplay.textContent = `スコア: ${score}/${totalQuestions}`; // スコア表示更新
 }
 
-// --- 選択肢生成 (次のステップで実装) ---
+// --- 選択肢生成 (修正版) ---
 function generateOptions() {
     console.log("選択肢生成中...");
     const correctAnswer = currentQuestion.answer;
-    const options = [correctAnswer]; // 正解をまず配列に入れる
+    // Setを使うことで、選択肢の重複を自動的に防ぎます。まず正解を入れます。
+    const options = new Set([correctAnswer]);
 
-    // 不正解の選択肢を生成 (正解と被らず、適切な範囲で)
-    while (options.length < 6) {
+    // 不正解の選択肢を、合計6つになるまで生成します。
+    while (options.size < 6) {
         let wrongAnswer;
         if (currentMode === 'easy') {
-            // 足し算/引き算の場合、正解の近くの数字などを生成
-            wrongAnswer = Math.max(0, correctAnswer + Math.floor(Math.random() * 11) - 5); // 正解±5の範囲(0以上)
-        } else { // hard (掛け算/割り算)
-             // 九九の範囲で、正解と異なる答えを生成
-            wrongAnswer = (Math.floor(Math.random() * 9) + 1) * (Math.floor(Math.random() * 9) + 1);
+            // Easyモード (足し算・引き算) の場合:
+            // 正解の周辺の数字を生成することを目指します。
+            // 例: 正解±10の範囲でランダムな数字を生成
+            const offset = Math.floor(Math.random() * 21) - 10; // -10 から +10 のランダムな値
+            wrongAnswer = correctAnswer + offset;
+            // 答えがマイナスにならないように調整 (0未満なら0にする)
+            wrongAnswer = Math.max(0, wrongAnswer);
+
+        } else { // Hardモード (掛け算・割り算) の場合:
+            // 九九の答え(1x1=1 から 9x9=81)の中からランダムに生成
+             let num1 = Math.floor(Math.random() * 9) + 1; // 1-9
+             let num2 = Math.floor(Math.random() * 9) + 1; // 1-9
+             wrongAnswer = num1 * num2;
         }
 
-        // まだ選択肢になく、かつ正解と違う場合のみ追加
-        if (!options.includes(wrongAnswer) && wrongAnswer !== correctAnswer) {
-            options.push(wrongAnswer);
+        // 生成した不正解候補が「正解と同じでない」場合のみ、Setに追加を試みます
+        // (Setの特性上、すでに存在する値の場合は追加されません)
+        if (wrongAnswer !== correctAnswer) {
+             options.add(wrongAnswer);
         }
+        // ループが無限に続かないように、念のため試行回数制限などを設けることも将来的には検討できますが、
+        // 今の範囲なら問題ないはずです。
     }
+
+    // Setを通常の配列に変換します
+    const optionsArray = Array.from(options);
 
     // 選択肢をシャッフル (Fisher-Yatesアルゴリズム)
-    for (let i = options.length - 1; i > 0; i--) {
+    // これにより、正解の位置が毎回ランダムになります。
+    for (let i = optionsArray.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [options[i], options[j]] = [options[j], options[i]]; // 要素を入れ替え
+        [optionsArray[i], optionsArray[j]] = [optionsArray[j], optionsArray[i]]; // 要素を入れ替え
     }
 
-    // ボタンに選択肢を表示し、クリックイベントを設定
-    optionButtons.forEach((button, index) => {
-        button.textContent = options[index];
-        // 古いイベントリスナーを削除してから新しいイベントリスナーを追加
-        // これをしないと、前の問題のイベントが残ってしまうことがある
-        button.replaceWith(button.cloneNode(true));
-    });
+    // --- ボタンへの表示とイベントリスナー設定 ---
+    // ボタン要素を取得し直す (重要：前のイベントリスナーを確実に消すため)
+    const currentOptionButtons = optionsArea.querySelectorAll('.option');
 
-    // 新しいボタン要素を取得し直してイベントリスナーを設定
-    const newOptionButtons = optionsArea.querySelectorAll('.option');
-    newOptionButtons.forEach(button => {
-        button.addEventListener('click', checkAnswer);
-    });
+    currentOptionButtons.forEach((button, index) => {
+        // 新しいボタンを作成して置き換えることで、古いイベントリスナーを確実に削除
+        const newButton = button.cloneNode(true);
+        newButton.textContent = optionsArray[index]; // 新しい選択肢テキストを設定
+        optionsArea.replaceChild(newButton, button); // HTML内でボタンを入れ替え
 
+        // 新しいボタンにクリックイベントを設定
+        newButton.addEventListener('click', checkAnswer);
+    });
 }
+
 
 
 // --- タイマー開始 (次のステップで実装) ---
