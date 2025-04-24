@@ -18,9 +18,14 @@
 
         <div id="game-screen" class="screen">
             <div id="status-bar">
-                <div id="level">レベル: 1</div>
-                <div id="timer">時間: 60</div>
-                <div id="score">スコア: 0/12</div>
+                <div id="level"><span>⭐</span> レベル: 1</div>
+                <div id="timer-section">
+                    <div id="timer"><span>⏰</span> 時間: --</div>
+                    <div id="time-gauge-container">
+                        <div id="time-gauge"></div>
+                    </div>
+                </div>
+                <div id="score"><span>🎯</span> スコア: 0/--</div>
             </div>
             <div id="question-area">
                 <p id="question">ここに問題が表示されます</p>
@@ -40,7 +45,8 @@
             <p id="result-message"></p>
             <p id="final-score"></p>
             <p id="final-time"></p>
-            <button onclick="showModeSelection()">もう一度挑戦する</button>
+            <button id="next-level-button" style="display: none;">次のレベルへ！</button>
+            <button id="retry-button" style="display: none;">もう一度挑戦する</button>
         </div>
 
     </div>

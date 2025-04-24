@@ -1,32 +1,35 @@
+/* --- 基本スタイル --- */
 body {
-    font-family: sans-serif; /* 読みやすいフォントに */
+    font-family: sans-serif; /* 基本フォント */
     display: flex;
-    justify-content: center; /* 中央揃え */
+    justify-content: center; /* 画面中央揃え */
     align-items: center;
-    min-height: 100vh; /* 画面全体の高さを使う */
-    background-color: #f0f8ff; /* 背景色を薄い青に */
+    min-height: 100vh; /* 画面全体の高さ */
+    background-color: #e0f7fa; /* 背景色 (薄い水色) */
     margin: 0;
 }
 
 #game-container {
-    background-color: #fff; /* ゲームエリアの背景を白に */
-    padding: 20px;
-    border-radius: 10px; /* 角を丸く */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 影をつける */
+    background-color: #ffffff; /* ゲームエリアの背景を白に */
+    padding: 25px; /* 内側の余白を少し広めに */
+    border-radius: 15px; /* 角をさらに丸く */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* 影を少し濃く */
     text-align: center;
     width: 90%;
-    max-width: 600px; /* 最大幅を設定 */
+    max-width: 600px; /* 最大幅 */
 }
 
 h1 {
-    color: #4682b4; /* タイトルの色 */
+    color: #0077cc; /* タイトルの色 */
+    margin-bottom: 25px; /* タイトル下の余白 */
 }
 
 h2 {
-    color: #556b2f; /* 見出しの色 */
+    color: #005588; /* 見出しの色 */
+    margin-bottom: 20px;
 }
 
-/* 画面切り替え用スタイル */
+/* --- 画面切り替え --- */
 .screen {
     display: none; /* 通常は非表示 */
 }
@@ -35,50 +38,145 @@ h2 {
     display: block; /* activeクラスがついたら表示 */
 }
 
+/* --- ステータスバー --- */
 #status-bar {
-    display: flex; /* 横並びにする */
-    justify-content: space-around; /* 要素間にスペースを均等に配置 */
-    margin-bottom: 20px;
-    background-color: #eee;
-    padding: 10px;
-    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 25px; /* 下の余白 */
+    background-color: #6cbbeb; /* 背景色 (水色) */
+    padding: 12px 18px; /* パディング */
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+#status-bar div { /* レベル、タイマーセクション、スコアのコンテナ */
+    display: flex;
+    align-items: center;
+    flex-basis: 30%; /* 各要素の基本幅を均等に */
+    justify-content: center; /* 中央揃え */
+}
+
+#status-bar span { /* アイコン */
+    margin-right: 8px; /* アイコン右の余白 */
+    font-size: 1.3em; /* アイコンサイズ */
+    vertical-align: middle; /* アイコンの縦位置調整 */
+}
+
+#timer-section {
+    display: flex;
+    flex-direction: column; /* 時間表示とゲージを縦に */
+    align-items: center;
+}
+
+/* --- 時間ゲージ --- */
+#time-gauge-container {
+    width: 120px; /* ゲージの幅 */
+    height: 12px; /* ゲージの高さ */
+    background-color: #e0e0e0; /* ゲージ背景色 */
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 4px; /* 時間表示との隙間 */
+    border: 1px solid #bdbdbd;
+}
+
+#time-gauge {
+    width: 100%;
+    height: 100%;
+    background-color: #4caf50; /* 緑 */
+    border-radius: 6px;
+    transition: width 0.5s linear, background-color 0.5s linear; /* 滑らかな変化 */
+}
+
+/* --- 問題エリア --- */
 #question-area {
-    font-size: 2em; /* 問題文の文字を大きく */
-    margin-bottom: 20px;
-    min-height: 50px; /* 高さを確保 */
+    font-size: 2.5em; /* 問題文の文字サイズ */
+    font-weight: bold; /* 太字に */
+    margin-bottom: 25px;
+    min-height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #e0ffff; /* 問題エリアの背景色 */
-    padding: 15px;
-    border-radius: 5px;
+    background-color: #fffde7; /* 背景色 (薄い黄色) */
+    color: #333; /* 文字色 */
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #eee;
 }
 
+#question {
+    margin: 0; /* <p> のデフォルトマージンを削除 */
+}
+
+
+/* --- 選択肢エリア --- */
 #options-area {
-    display: grid; /* グリッドレイアウトを使用 */
-    grid-template-columns: repeat(3, 1fr); /* 3列に */
-    gap: 10px; /* ボタン間の隙間 */
-    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* レスポンシブなグリッド */
+    gap: 15px; /* ボタン間の隙間 */
+    margin-bottom: 25px;
 }
 
-.option, button { /* 選択肢ボタンと他のボタンの共通スタイル */
-    padding: 15px;
+/* --- ボタン共通スタイル --- */
+button {
+    padding: 15px 10px; /* パディング調整 */
     font-size: 1.2em;
-    cursor: pointer; /* カーソルをポインターに */
+    cursor: pointer;
     border: none;
-    border-radius: 5px;
-    background-color: #87cefa; /* ボタンの背景色 */
-    color: white; /* 文字色 */
-    transition: background-color 0.3s; /* ホバー時の色変化を滑らかに */
+    border-radius: 8px;
+    background-color: #2196f3; /* 基本ボタン色 (青) */
+    color: white;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease; /* アニメーション */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.option:hover, button:hover {
-    background-color: #4682b4; /* ホバー時の背景色 */
+button:hover {
+    background-color: #1976d2; /* ホバー時の色 */
 }
 
+button:active {
+    transform: scale(0.98); /* クリック時の縮小効果 */
+}
+
+button:disabled { /* 無効化されたボタン */
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.option { /* 選択肢ボタン特有のスタイル (必要なら) */
+    background-color: #81d4fa; /* 選択肢ボタンの色 (水色) */
+    font-weight: bold;
+}
+
+.option:hover {
+    background-color: #4fc3f7;
+}
+
+/* --- 結果画面 --- */
 #result-screen p {
-    font-size: 1.2em;
-    margin: 10px 0;
+    font-size: 1.3em; /* 結果メッセージの文字サイズ */
+    margin: 15px 0;
+}
+
+#result-screen button {
+    margin-top: 15px; /* ボタン上の余白 */
+    margin-left: 10px; /* ボタン間の余白 */
+    margin-right: 10px;
+    padding: 12px 25px; /* ボタンのサイズ調整 */
+}
+
+#next-level-button {
+    background-color: #ff9800; /* オレンジ色 */
+}
+#next-level-button:hover {
+    background-color: #f57c00;
+}
+
+#retry-button {
+    background-color: #4caf50; /* 緑色 */
+}
+#retry-button:hover {
+    background-color: #388e3c;
 }
